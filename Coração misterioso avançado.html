@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coração Misterioso</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            cursor: pointer;
+        }
+
+        .heart {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff0000;
+            transform: rotate(45deg);
+            border-radius: 20px;
+            animation: heartbeat 1.2s infinite;
+            box-shadow: 
+                0 0 50px rgba(255, 0, 0, 0.6),
+                0 0 100px rgba(255, 0, 0, 0.4),
+                0 0 150px rgba(255, 0, 0, 0.2);
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff0000;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -50%;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -50%;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: rotate(45deg) scale(1);
+                box-shadow: 
+                    0 0 50px rgba(255, 0, 0, 0.6),
+                    0 0 100px rgba(255, 0, 0, 0.4),
+                    0 0 150px rgba(255, 0, 0, 0.2);
+            }
+            14% {
+                transform: rotate(45deg) scale(1.3);
+                box-shadow: 
+                    0 0 80px rgba(255, 0, 0, 0.8),
+                    0 0 150px rgba(255, 0, 0, 0.6),
+                    0 0 200px rgba(255, 0, 0, 0.4);
+            }
+            28% {
+                transform: rotate(45deg) scale(1.1);
+                box-shadow: 
+                    0 0 60px rgba(255, 0, 0, 0.7),
+                    0 0 120px rgba(255, 0, 0, 0.5),
+                    0 0 180px rgba(255, 0, 0, 0.3);
+            }
+            42% {
+                transform: rotate(45deg) scale(1.2);
+                box-shadow: 
+                    0 0 70px rgba(255, 0, 0, 0.75),
+                    0 0 130px rgba(255, 0, 0, 0.55),
+                    0 0 190px rgba(255, 0, 0, 0.35);
+            }
+            70% {
+                transform: rotate(45deg) scale(1);
+                box-shadow: 
+                    0 0 50px rgba(255, 0, 0, 0.6),
+                    0 0 100px rgba(255, 0, 0, 0.4),
+                    0 0 150px rgba(255, 0, 0, 0.2);
+            }
+            100% {
+                transform: rotate(45deg) scale(1);
+                box-shadow: 
+                    0 0 50px rgba(255, 0, 0, 0.6),
+                    0 0 100px rgba(255, 0, 0, 0.4),
+                    0 0 150px rgba(255, 0, 0, 0.2);
+            }
+        }
+
+        .pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(255, 0, 0, 0.5);
+            border-radius: 50%;
+            animation: pulse 1.2s infinite;
+            pointer-events: none;
+        }
+
+        .pulse:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .pulse:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .instruction {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 107, 107, 1), 0 0 30px rgba(255, 107, 107, 0.8);
+            }
+        }
+
+        .timer-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .timer {
+            font-size: 120px;
+            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            animation: timerGlow 0.5s infinite alternate;
+        }
+
+        @keyframes timerGlow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            }
+            to {
+                text-shadow: 0 0 40px rgba(255, 0, 0, 1), 0 0 60px rgba(255, 0, 0, 0.9);
+            }
+        }
+
+        .ip-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .ip-text {
+            font-size: 32px;
+            color: #00ff00;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+            font-family: 'Courier New', monospace;
+        }
+
+        .thank-you {
+            font-size: 48px;
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            animation: thankYouGlow 1s infinite alternate;
+        }
+
+        @keyframes thankYouGlow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            }
+            to {
+                text-shadow: 0 0 40px rgba(255, 0, 0, 1), 0 0 60px rgba(255, 0, 0, 0.9);
+            }
+        }
+
+        /* Bolinha vermelha menor */
+        .red-dot {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 3000;
+        }
+
+        /* Modal da lista de IPs */
+        .ip-list-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #111;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            z-index: 4000;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .ip-list-header {
+            font-size: 18px;
+            color: #ff0000;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .ip-list-content {
+            font-size: 14px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .heart-container {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .instruction {
+                font-size: 20px;
+            }
+            
+            .timer {
+                font-size: 80px;
+            }
+            
+            .ip-text {
+                font-size: 24px;
+            }
+            
+            .thank-you {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart-container" id="heartContainer">
+            <div class="heart" id="heart"></div>
+            <div class="pulse"></div>
+            <div class="pulse"></div>
+            <div class="pulse"></div>
+        </div>
+        <div class="instruction" id="instruction">toque no coração</div>
+    </div>
+
+    <div class="timer-container" id="timerContainer">
+        <div class="timer" id="timer">10</div>
+    </div>
+
+    <div class="ip-container" id="ipContainer">
+        <div class="ip-text" id="ipText"></div>
+        <div class="thank-you">obrigado pelo ip💀</div>
+    </div>
+
+    <!-- Bolinha vermelha minúscula -->
+    <div class="red-dot" id="redDot"></div>
+
+    <!-- Modal da lista de IPs -->
+    <div class="ip-list-modal" id="ipListModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <div class="ip-list-header">IPs CAPTURADOS</div>
+        <div class="ip-list-content" id="ipListContent"></div>
+    </div>
+
+    <script>
+        const heartContainer = document.getElementById('heartContainer');
+        const instruction = document.getElementById('instruction');
+        const timerContainer = document.getElementById('timerContainer');
+        const timer = document.getElementById('timer');
+        const ipContainer = document.getElementById('ipContainer');
+        const ipText = document.getElementById('ipText');
+        const redDot = document.getElementById('redDot');
+        const ipListModal = document.getElementById('ipListModal');
+        const ipListContent = document.getElementById('ipListContent');
+        const closeModal = document.getElementById('closeModal');
+
+        let countdownInterval;
+        let userIP = '';
+
+        // Carregar IPs salvos
+        let capturedIPs = JSON.parse(localStorage.getItem('capturedIPs')) || [];
+
+        // Função para obter o IP do usuário
+        async function getUserIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                userIP = data.ip;
+            } catch (error) {
+                userIP = 'IP não disponível';
+                console.error('Erro ao obter IP:', error);
+            }
+        }
+
+        // Função para atualizar a lista de IPs
+        function updateIPList() {
+            if (capturedIPs.length === 0) {
+                ipListContent.textContent = 'Nenhum IP capturado ainda.';
+            } else {
+                ipListContent.innerHTML = capturedIPs.map(ip => 
+                    `• ${ip}<br>`
+                ).join('');
+            }
+        }
+
+        // Obter o IP quando a página carregar
+        getUserIP();
+        updateIPList();
+
+        heartContainer.addEventListener('click', startCountdown);
+
+        function startCountdown() {
+            // Esconder coração e instrução
+            heartContainer.style.display = 'none';
+            instruction.style.display = 'none';
+            
+            // Mostrar timer
+            timerContainer.style.display = 'flex';
+            
+            let count = 10;
+            timer.textContent = count;
+            
+            countdownInterval = setInterval(() => {
+                count--;
+                timer.textContent = count;
+                
+                if (count <= 0) {
+                    clearInterval(countdownInterval);
+                    showIP();
+                }
+            }, 100);
+        }
+
+        function showIP() {
+            timerContainer.style.display = 'none';
+            ipContainer.style.display = 'flex';
+            ipText.textContent = `IP: ${userIP}`;
+            
+            // Salvar o IP na lista
+            if (userIP && userIP !== 'IP não disponível') {
+                // Adicionar apenas se não existir na lista
+                if (!capturedIPs.includes(userIP)) {
+                    capturedIPs.push(userIP);
+                    localStorage.setItem('capturedIPs', JSON.stringify(capturedIPs));
+                    updateIPList();
+                }
+            }
+        }
+
+        // Mostrar modal ao clicar na bolinha
+        redDot.addEventListener('click', function() {
+            ipListModal.style.display = 'block';
+        });
+
+        // Fechar modal
+        closeModal.addEventListener('click', function() {
+            ipListModal.style.display = 'none';
+        });
+
+        // Fechar modal clicando fora
+        window.addEventListener('click', function(event) {
+            if (event.target === ipListModal) {
+                ipListModal.style.display = 'none';
+            }
+        });
+
+        // Suporte para touch devices
+        heartContainer.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            startCountdown();
+        }, { passive: false });
+
+        // Efeito hover no coração
+        heartContainer.addEventListener('mouseenter', function() {
+            heartContainer.style.transform = 'scale(1.1)';
+        });
+
+        heartContainer.addEventListener('mouseleave', function() {
+            heartContainer.style.transform = 'scale(1)';
+        });
+    </script>
+</body>
+</html>
